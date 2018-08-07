@@ -126,6 +126,8 @@ $(document).on("click", "#favorite", function () {
 
 $(document).on("click", "#search", function (event) {
 	event.preventDefault();
-	console.log($("#searchTerm").val());
+	prepopulatedSearches.push($("#searchTerm").val());
+	$("#buttons").empty();
+	progObj.renderButton();
 	$("#searchTerm").val("");
 });
