@@ -1,5 +1,12 @@
 .card {
-    display: inline;
     border: 2px;
-    border-color: black;
+    margin-bottom: 10px;
+}
+
+.spacer {
+    height: 50px;
+}
+
+#favgiphy {
+    border-bottom: 2px solid black;
 }

@@ -5,6 +5,10 @@ var favresponseIndex
 var currentstorageIndex = localStorage.length - 1;
 progObj = {
 	selectorIndex: "",
+	rowfCount: 1,
+	picfRow: 0,
+	rowCount: 1,
+	picRow: 0,
 	prepopulatedSearhes: ["funny cats", "nba highlights", "nfl highlights", "funny dog", "historical quotes"],
 	apitapFav: function (index) {
 		fetch(apiURL).then(function (response) {
@@ -18,16 +22,30 @@ progObj = {
 				$(img).attr("state", "paused");
 				$(img).addClass("card-img-top");
 				$(img).attr("data-pause", response.data[index].images.fixed_height_still.url);
-				card = $('<div class="card" style="width: 18rem;">');
+				column = $("<div class = 'col-sm-3'>")
+				card = $('<div" style="width: 18rem;">');
 				card.attr("id", searchString + i)
 				cardbody = $('<div class="card-body border border-primary">');
 				cardtext = $('<p class="card-text">');
-				cardtext.text("rating: " + response.data[index].rating + '\n' + 'title: ' + response.data[index].title)
+				cardtext.text("rating: " + response.data[index].rating)
+				cardbody.append('<p class="card-text"> title: ' + response.data[index].title + '<p>')
 				card.append(img);
 				card.append(cardbody);
 				cardbody.append(cardtext);
-				cardbody.append('<p class="card-text"> title: ' + response.data[index].title+ '</p')
-				$("#favgiphy").append(card);
+				column.append(card);
+				console.log(progObj.rowfCount)
+				if (progObj.rowfCount===1) {
+					progObj.picfRow++
+					$("#favgiphy").append($('<div class="row F' + progObj.picfRow + '">'))
+					$("#favgiphy").append($('<div class="row spacer">'))
+				}
+				else if (progObj.rowfCount===4) {
+					progObj.rowfCount=0;
+				}
+				$(".F" + progObj.picfRow).append(column);
+				progObj.rowfCount++;
+				console.log(progObj.rowfCount)				
+
 			});
 	},
 	apiTap: function () {
@@ -46,6 +64,7 @@ progObj = {
 					$(img).attr("state", "paused");
 					$(img).addClass("card-img-top");
 					$(img).attr("data-pause", response.data[i].images.fixed_height_still.url);
+					column = $("<div class = 'col-sm-3'>")
 					card = $('<div class="card" style="width: 18rem;">');
 					card.attr("id", searchString + i)
 					cardbody = $('<div class="card-body border border-primary">');
@@ -60,7 +79,18 @@ progObj = {
 					$(favButton).attr("apiurl", apiURL)
 					$(favButton).attr("parent", searchString + i)
 					cardbody.append(favButton)
-					$("#newgiphy").append(card);
+					column.append(card);
+					if (progObj.rowCount===1) {
+						progObj.picRow++
+						$("#newgiphy").append($('<div class="row N' + progObj.picRow + '">'))
+						$("#newgiphy").append($('<div class="row spacer">'))
+					}
+					else if (progObj.rowCount===4) {
+						progObj.rowCount=0;
+					}
+					$(".N" + progObj.picRow).append(column);
+					progObj.rowCount++;
+					console.log(progObj.rowCount)
 				}
 			})
 	},
