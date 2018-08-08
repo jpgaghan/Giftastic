@@ -22,11 +22,11 @@ progObj = {
 				card.attr("id", searchString + i)
 				cardbody = $('<div class="card-body border border-primary">');
 				cardtext = $('<p class="card-text">');
-				cardtext.text("rating: " + response.data[index].rating)
+				cardtext.text("rating: " + response.data[index].rating + '\n' + 'title: ' + response.data[index].title)
 				card.append(img);
 				card.append(cardbody);
 				cardbody.append(cardtext);
-				cardbody.append('<p class="card-text"> title: ' + response.data[index].title + '<p>')
+				cardbody.append('<p class="card-text"> title: ' + response.data[index].title+ '</p')
 				$("#favgiphy").append(card);
 			});
 	},
@@ -98,7 +98,7 @@ $(document).ready(function () {
 
 $(document).on("click", ".giphy", function () {
 	searchString = $(this).attr("data-search");
-	apiURL = "http://api.giphy.com/v1/gifs/search?q=" + searchString + "&limit=10&api_key=LqPD23bBo3xDVpkvjWxSlE29NgGb9IUp";
+	apiURL = "https://api.giphy.com/v1/gifs/search?q=" + searchString + "&limit=10&api_key=LqPD23bBo3xDVpkvjWxSlE29NgGb9IUp";
 	progObj.apiTap();
 });
 
@@ -126,7 +126,7 @@ $(document).on("click", "#favorite", function () {
 
 $(document).on("click", "#search", function (event) {
 	event.preventDefault();
-	prepopulatedSearches.push($("#searchTerm").val());
+	progObj.prepopulatedSearches.push($("#searchTerm").val());
 	$("#buttons").empty();
 	progObj.renderButton();
 	$("#searchTerm").val("");
