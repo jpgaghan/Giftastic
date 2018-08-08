@@ -15,7 +15,6 @@ progObj = {
 			return response.json();
 		})
 			.then(function (response) {
-				console.log(response)
 				img = new Image();
 				img.src = response.data[index].images.fixed_height_still.url
 				$(img).attr("data-play", response.data[index].images.fixed_height.url);
@@ -33,7 +32,6 @@ progObj = {
 				card.append(cardbody);
 				cardbody.append(cardtext);
 				column.append(card);
-				console.log(progObj.rowfCount)
 				if (progObj.rowfCount===1) {
 					progObj.picfRow++
 					$("#favgiphy").append($('<div class="row F' + progObj.picfRow + '">'))
@@ -44,8 +42,6 @@ progObj = {
 				}
 				$(".F" + progObj.picfRow).append(column);
 				progObj.rowfCount++;
-				console.log(progObj.rowfCount)				
-
 			});
 	},
 	apiTap: function () {
@@ -54,8 +50,6 @@ progObj = {
 			return response.json();
 		})
 			.then(function (response) {
-				console.log(response)
-
 				//active image and active image state and current state being appended as play
 				for (i = 0; i < response.data.length; i++) {
 					img = new Image();
@@ -90,7 +84,6 @@ progObj = {
 					}
 					$(".N" + progObj.picRow).append(column);
 					progObj.rowCount++;
-					console.log(progObj.rowCount)
 				}
 			})
 	},
@@ -117,13 +110,10 @@ $(document).ready(function () {
 	for (i = 0; i < progObj.prepopulatedSearches.length; i++) {
 		progObj.renderButton();
 	}
-	console.log(localStorage.length)
 	for (i = 0; i < localStorage.length; i++) {
-		console.log(localStorage.key(i))
 		if (localStorage.key(i).includes("favobj") === true) {
 			var retrievedobj = JSON.parse(localStorage.getItem(localStorage.key(i)
 		));
-		console.log(retrievedobj);
 			apiURL = retrievedobj.apiURL
 			favresponseIndex = retrievedobj.apiindex
 
@@ -150,14 +140,29 @@ $(document).on("click", "img", function () {
 })
 
 $(document).on("click", "#favorite", function () {
+	string = ".F" + progObj.rowfCount
+	console.log(progObj.rowfCount)
+	console.log(progObj.picfRow)
 	currentstorageIndex = currentstorageIndex + 1
 	locstorObject = {};
 	locstorObject.apiURL = $(this).attr("apiurl");
 	locstorObject.apiindex = $(this).attr("apiindex");
-	console.log(locstorObject);	
 	localStorage.setItem('favobj' + currentstorageIndex, JSON.stringify(locstorObject));
-	targetcard = $(this).attr("parent")
-	document.getElementById('favgiphy').appendChild(document.getElementById(targetcard));
+	if (progObj.rowfCount !== 5 & progObj.picfRow !==0) {
+	progObj.rowfCount++
+	targetcard = $(this).closest(".col-sm-3")
+	$('.F' + progObj.picfRow).append(targetcard);
+}
+else{
+	progObj.picfRow++
+	$("#favgiphy").append("<div class = 'row spacer'>");
+	$("#favgiphy").append($("<div class = 'row F" +progObj.picfRow+"'>"));
+	targetcard = $(this).closest(".col-sm-3");
+	$('.F' + progObj.picfRow).append(targetcard);
+	progObj.rowfCount++;
+	if (progObj.rowfCount === 5) {
+	progObj.rowfCount = 1;}
+}
 });
 
 $(document).on("click", "#search", function (event) {
