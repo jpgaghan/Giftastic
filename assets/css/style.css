@@ -10,3 +10,11 @@
 #favgiphy {
     border-bottom: 2px solid black;
 }
+
+body {
+    background-color: lightblue;
+}
+
+.card-body {
+    background-color: white;
+}

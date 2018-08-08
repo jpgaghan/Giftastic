@@ -9,7 +9,7 @@ progObj = {
 	picfRow: 0,
 	rowCount: 1,
 	picRow: 0,
-	prepopulatedSearhes: ["funny cats", "nba highlights", "nfl highlights", "funny dog", "historical quotes"],
+	prepopulatedSearches: ["funny cats", "nba highlights", "nfl highlights", "funny dog", "historical quotes"],
 	apitapFav: function (index) {
 		fetch(apiURL).then(function (response) {
 			return response.json();
@@ -65,7 +65,7 @@ progObj = {
 					$(img).addClass("card-img-top");
 					$(img).attr("data-pause", response.data[i].images.fixed_height_still.url);
 					column = $("<div class = 'col-sm-3'>")
-					card = $('<div class="card" style="width: 18rem;">');
+					card = $('<div class="card">');
 					card.attr("id", searchString + i)
 					cardbody = $('<div class="card-body border border-primary">');
 					cardtext = $('<p class="card-text">');
@@ -96,11 +96,18 @@ progObj = {
 	},
 
 	renderButton: function () {
-		searchString = this.prepopulatedSearhes[i];
+		if (searchString === undefined) {
+			searchString = this.prepopulatedSearches[i];
+		} 
+		else if (searchString === undefined) {
+			searchString= $("#searchTerm").val()}
 		button = $("<button>");
 		button.addClass("giphy");
 		button.text(searchString);
-		searchString = searchString.trim().replace(/ /g, "+");
+		searchString= searchString.trim();
+		if (searchString.includes(" ")) {
+			searchString = searchString.replace(/ /g, "+");
+		}
 		button.attr("data-search", searchString)
 		button.prependTo("#buttons");
 	}
@@ -108,7 +115,7 @@ progObj = {
 }
 
 $(document).ready(function () {
-	for (i = 0; i < progObj.prepopulatedSearhes.length; i++) {
+	for (i = 0; i < progObj.prepopulatedSearches.length; i++) {
 		progObj.renderButton();
 	}
 	console.log(localStorage.length)
