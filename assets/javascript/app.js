@@ -96,11 +96,10 @@ progObj = {
 	},
 
 	renderButton: function () {
+		searchString = progObj.prepopulatedSearches[i];
 		if (searchString === undefined) {
-			searchString = this.prepopulatedSearches[i];
+			searchString= $("#searchTerm").val();
 		} 
-		else if (searchString === undefined) {
-			searchString= $("#searchTerm").val()}
 		button = $("<button>");
 		button.addClass("giphy");
 		button.text(searchString);
@@ -164,7 +163,6 @@ $(document).on("click", "#favorite", function () {
 $(document).on("click", "#search", function (event) {
 	event.preventDefault();
 	progObj.prepopulatedSearches.push($("#searchTerm").val());
-	$("#buttons").empty();
 	progObj.renderButton();
 	$("#searchTerm").val("");
 });
